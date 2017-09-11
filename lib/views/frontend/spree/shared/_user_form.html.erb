@@ -1,13 +1,18 @@
 <fieldset id="password-credentials">
   <div class="form-group">
-    <%= f.email_field :email, :class => 'form-control', :placeholder => Spree.t(:email) %>
+    <% if params[:email] %>
+      <p>Enter your password to create an account, you will get the RM10 discount when you make your first purchase.</p>
+      <%= f.email_field :email, :value => params[:email], :class => 'form-control', :placeholder => Spree.t(:email) %>
+    <% else %>
+      <%= f.email_field :email, :class => 'form-control', :placeholder => Spree.t(:email) %>
+    <% end %>
   </div>
   <hr />
   <div class="form-group">
     <%= f.password_field :password, :class => 'form-control', :placeholder => Spree.t(:password) %>
-  </div> 
+  </div>
   <div class="form-group">
     <%= f.password_field :password_confirmation, :class => 'form-control', :placeholder => Spree.t(:confirm_password) %>
-  </div> 
+  </div>
 </fieldset>
 <div data-hook="signup_below_password_fields"></div>
