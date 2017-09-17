@@ -42,7 +42,7 @@ module Spree
       end
 
       def add_point_to_user
-        self.loyalty_points_balance = 50
+        self.loyalty_points_balance = 1000
       end
 
       def set_login
