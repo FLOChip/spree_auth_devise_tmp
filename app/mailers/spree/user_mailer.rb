@@ -14,7 +14,7 @@ module Spree
 
     def send_welcome_email(user)
       @user = user
-      mail to: user.email, from: from_address, subject: 'Welcome to Theminipuer.com.my'
+      mail to: user.email, from: from_address, subject: "Thank you for signing up for The Mini Pu'er, here's the RM10 off your first order!"
     end
   end
 end
