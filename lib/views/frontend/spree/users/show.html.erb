@@ -3,7 +3,7 @@
 <div data-hook="account_summary" class="account-summary well">
   <dl id="user-info">
     <dt><%= Spree.t(:email) %></dt>
-    <dd><%= @user.email %> (<%= link_to Spree.t(:edit), spree.edit_account_path %>)</dd>
+    <dd><%= @user.email %> (<%= link_to "Change password", spree.edit_account_path %>)</dd>
   </dl>
 </div>
 
