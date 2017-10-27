@@ -1,7 +1,7 @@
 <fieldset id="password-credentials">
   <div class="form-group">
     <% if params[:email] %>
-      <p>Enter your password to create an account, you will get the RM10 discount when you make your first purchase.</p>
+      <p>Enter your password to create an account and receive RM10 discount for your first purchase. </p>
       <%= f.email_field :email, :value => params[:email], :class => 'form-control', :placeholder => Spree.t(:email) %>
     <% else %>
       <%= f.email_field :email, :class => 'form-control', :placeholder => Spree.t(:email) %>
