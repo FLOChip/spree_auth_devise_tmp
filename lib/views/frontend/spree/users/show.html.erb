@@ -17,8 +17,8 @@
         <th class="order-number"><%= Spree::Order.human_attribute_name(:number) %></th>
         <th class="order-date"><%= Spree.t(:date) %></th>
         <th class="order-status"><%= Spree.t(:status) %></th>
-        <th class="order-payment-state"><%= Spree.t(:payment_state) %></th>
-        <th class="order-shipment-state"><%= Spree.t(:shipment_state) %></th>
+        <th class="order-payment-state">Payment Status</th>
+        <th class="order-shipment-state">Shipment Status</th>
         <th class="order-total"><%= Spree.t(:total) %></th>
       </tr>
       </thead>
