@@ -1,10 +1,10 @@
 <fieldset id="password-credentials">
-  <div class="form-group hidden">
+  <div class="form-group <%= 'hidden' if request.path == '/account/edit' %>">
     <% if params[:email] %>
       <p>Enter your password to create an account and receive RM10 discount for your first purchase. </p>
-      <%= f.email_field :email, :value => params[:email], :class => 'form-control', :placeholder => Spree.t(:email), :disabled => true %>
+      <%= f.email_field :email, :value => params[:email], :class => 'form-control', :placeholder => Spree.t(:email) %>
     <% else %>
-      <%= f.email_field :email, :class => 'form-control', :placeholder => Spree.t(:email), :disabled => true %>
+      <%= f.email_field :email, :class => 'form-control', :placeholder => Spree.t(:email) %>
     <% end %>
   </div>
   <hr />
