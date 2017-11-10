@@ -28,7 +28,17 @@
           <td class="order-number"><%= link_to order.number, order_url(order) %></td>
           <td class="order-date">
             <% if order.completed_at.nil? %>
-              <%= link_to "Complete Purchase", spree.order_path(order), class: "btn btn-sm btn-outline" %>
+              <% if order.state == 'cart' %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps.first, order: order.id), class: "btn btn-sm btn-outline" %>
+              <% elsif order.state == 'address' %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[1], order: order.id), class: "btn btn-sm btn-outline" %>
+              <% elsif order.state == 'delivery' %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[2], order: order.id), class: "btn btn-sm btn-outline" %>
+              <% elsif order.state == 'payment' %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[3], order: order.id), class: "btn btn-sm btn-outline" %>
+              <% else %>
+                <%= link_to "Complete Purchase", spree.order_path(order), class: "btn btn-sm btn-outline" %>
+              <% end %>
             <% else %>
               <%= l order.completed_at.to_date %>
             <% end %>
