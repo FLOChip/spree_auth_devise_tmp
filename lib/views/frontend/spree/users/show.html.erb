@@ -28,7 +28,7 @@
           <td class="order-number"><%= link_to order.number, order_url(order) %></td>
           <td class="order-date">
             <% if order.completed_at.nil? %>
-              <%= link_to "Complete Purchase", spree.order_path(order), class: "btn btn-sm btn-outline" %>
+              <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps.first), class: "btn btn-sm btn-outline" %>
             <% else %>
               <%= l order.completed_at.to_date %>
             <% end %>
