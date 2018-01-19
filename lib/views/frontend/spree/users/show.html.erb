@@ -11,7 +11,7 @@
 
   <h3><%= Spree.t(:my_orders) %></h3>
   <% if @orders.present? %>
-    <table class="table table-striped order-summary">
+    <table class="table table-responsive table-striped order-summary">
       <thead class="active">
       <tr>
         <th class="order-number"><%= Spree::Order.human_attribute_name(:number) %></th>
