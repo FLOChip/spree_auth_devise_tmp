@@ -12,7 +12,7 @@
   <h3><%= Spree.t(:my_orders) %></h3>
   <% if @orders.present? %>
   <div class="table-responsive">
-    <table class="table table-responsive table-striped order-summary">
+    <table class="table table-striped order-summary">
       <thead class="active">
       <tr>
         <th class="order-number"><%= Spree::Order.human_attribute_name(:number) %></th>
@@ -21,6 +21,7 @@
         <th class="order-payment-state">Payment Status</th>
         <th class="order-shipment-state">Shipment Status</th>
         <th class="order-total"><%= Spree.t(:total) %></th>
+        <th class="gift-comment">Gift comment</th>
       </tr>
       </thead>
       <tbody>
@@ -48,6 +49,7 @@
           <td class="order-payment-state"><%= Spree.t("payment_states.#{order.payment_state}").titleize if order.payment_state %></td>
           <td class="order-shipment-state"><%= Spree.t("shipment_states.#{order.shipment_state}").titleize if order.shipment_state %></td>
           <td class="lead text-primary order-total"><%= order.display_total %></td>
+          <td><%= order.gift_comment %></td>
         </tr>
       <% end %>
       </tbody>
