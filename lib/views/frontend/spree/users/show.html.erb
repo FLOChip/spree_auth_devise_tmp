@@ -31,22 +31,27 @@
           <td class="order-date">
             <% if order.completed_at.nil? %>
               <% if order.state == 'cart' %>
-                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps.first, order: order.id), class: "btn btn-sm btn-outline" %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps.first, order: order.id), class: "btn btn-sm btn-primary" %>
               <% elsif order.state == 'address' %>
-                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[1], order: order.id), class: "btn btn-sm btn-outline" %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[1], order: order.id), class: "btn btn-sm btn-primary" %>
               <% elsif order.state == 'delivery' %>
-                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[2], order: order.id), class: "btn btn-sm btn-outline" %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[2], order: order.id), class: "btn btn-sm btn-primary" %>
               <% elsif order.state == 'payment' %>
-                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[3], order: order.id), class: "btn btn-sm btn-outline" %>
+                <%= link_to "Complete Purchase", checkout_state_path(order.checkout_steps[3], order: order.id), class: "btn btn-sm btn-primary" %>
               <% else %>
-                <%= link_to "Complete Purchase", spree.order_path(order), class: "btn btn-sm btn-outline" %>
+                <%= link_to "Complete Purchase", spree.order_path(order), class: "btn btn-sm btn-primary" %>
               <% end %>
             <% else %>
               <%= l order.completed_at.to_date %>
             <% end %>
           </td>
           <td class="order-status"><%= Spree.t("order_state.#{order.state}").titleize %></td>
-          <td class="order-payment-state"><%= Spree.t("payment_states.#{order.payment_state}").titleize if order.payment_state %></td>
+          <td class="order-payment-state">
+            <%= Spree.t("payment_states.#{order.payment_state}").titleize if order.payment_state %>
+            <% if order.payment_state && order.payment_state == 'balance_due' %>
+              <%= link_to "Pay now", checkout_state_path(order.checkout_steps[3], order: order.id), class: "btn btn-sm btn-primary" %>
+            <% end %>
+          </td>
           <td class="order-shipment-state"><%= Spree.t("shipment_states.#{order.shipment_state}").titleize if order.shipment_state %></td>
           <td class="lead text-primary order-total"><%= order.display_total %></td>
           <td><%= order.gift_comment %></td>
