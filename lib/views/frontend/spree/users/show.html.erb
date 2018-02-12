@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.6.0/sha256.min.js"></script>
 <h1><%= accurate_title %></h1>
 
 <div data-hook="account_summary" class="account-summary well">
@@ -49,7 +50,43 @@
           <td class="order-payment-state">
             <%= Spree.t("payment_states.#{order.payment_state}").titleize if order.payment_state %>
             <% if order.payment_state && order.payment_state == 'balance_due' %>
-              <%= link_to "Pay now", checkout_state_path(order.checkout_steps[3], order: order.id), class: "btn btn-sm btn-primary" %>
+              <%= link_to "Pay now", "#payment", class: "btn btn-sm btn-primary pay-now-btn", data: {target: order.id} %>
+
+              <form name="eghlPayment" method="post" action="https://securepay.e-ghl.com/IPG/Payment.aspx" id="eghlPayment" data-target="<%= order.id %>">
+                 <input type="hidden" name="TransactionType" value="SALE"> 
+                <input type="hidden" name="PymtMethod" value="ANY">
+                <input type="hidden" name="ServiceID" value="XJY">
+                <input type="hidden" name="Password" value="zkSbnF6y">
+                 <input type="hidden" name="PaymentID" value="" class="eghl-payment-id" data-target="<%= order.id %>">
+                <input type="hidden" name="PaymentDesc" value="The Mini Puer Sales">
+                 <input type="hidden" name="OrderNumber" value="<%= order.number %>">
+                 <input type="hidden" name="MerchantName" value="The Mini Puer"> 
+                <input type="hidden" name="MerchantReturnURL" value="http://theminipuer.com/orders/<%= order.number %>"> 
+                 <input type="hidden" name="Amount" value="<%= number_with_precision(order.total, precision: 2) %>"> 
+                <input type="hidden" name="CurrencyCode" value="<%= order.currency %>">
+                <input type="hidden" name="CustName" value="<%= order.email %>">
+                <input type="hidden" name="CustEmail" value="<%= order.email %>">
+                <input type="hidden" name="CustPhone" value="<%= order.shipping_address.phone %>">
+                <input type="hidden" name="CustIP" value="<%= order.last_ip_address %>">
+                <input type="hidden" name="MerchantTermsURL" value="http://theminipuer.com/terms-of-use">
+                 <input type="hidden" name="LanguageCode" value="en"> 
+                <input type="hidden" name="PageTimeout" value="780"> 
+                <input type="hidden" name="HashValue" value="" class="eghlHash" data-target="<%= order.id %>"> 
+              </form>
+              <script>
+                var paymentId = "<%= order.number + Time.now.strftime('%H%M%S%L') %>";
+                var totalamount = "<%= order.total %>";
+                var totalamountwithprecision = parseFloat(Math.round(totalamount * 100) / 100).toFixed(2);
+                $('.eghl-payment-id[data-target="<%= order.id %>"]').val(paymentId);
+                var hashKey = "zkSbnF6yXJY" + paymentId + "http://theminipuer.com/orders/<%= order.number %>" + totalamountwithprecision + "<%= order.currency %><%= order.last_ip_address %>780";
+                var hash = sha256(hashKey);
+                $('.eghlHash[data-target="<%= order.id %>"]').val(hash);
+                $('.pay-now-btn').on('click', function(e) {
+                  e.stopPropagation();
+                  var target = $(this).data('target');
+                  $('#eghlPayment[data-target="' + target + '"]').submit();
+                });
+              </script>
             <% end %>
           </td>
           <td class="order-shipment-state"><%= Spree.t("shipment_states.#{order.shipment_state}").titleize if order.shipment_state %></td>
